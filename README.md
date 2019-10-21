@@ -1,2 +1,0 @@
-# SarovarProject
-Created with CodeSandbox
