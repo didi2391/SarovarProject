@@ -7,6 +7,7 @@ import GoogleButton from "react-google-button";
 import { withFirebase } from "../../../helper/firebase/index";
 import * as ROUTES from "../../../constants/routes";
 import * as actions from "../../../store/actions/index";
+import * as classes from "./SignIn.module.css";
 
 class SignInPage extends React.Component {
   render() {
@@ -50,9 +51,11 @@ class SignInGoogleBase extends Component {
 
   render() {
     return (
-      <GoogleButton type="light" onClick={this.onSubmit}>
-        Sign In with Google
-      </GoogleButton>
+      <div className={classes.SignIn}>
+        <GoogleButton type="light" onClick={this.onSubmit}>
+          Sign In with Google
+        </GoogleButton>
+      </div>
     );
   }
 }

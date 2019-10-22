@@ -13,7 +13,7 @@ class SignOutButton extends Component {
   }
 
   render() {
-    return <Redirect to={ROUTES.LANDING} />;
+    return <Redirect to={ROUTES.SIGN_IN} />;
   }
 }
 

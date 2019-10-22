@@ -1,4 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+
 .App {
-  font-family: sans-serif;
+  font-family: sans-Josefin Sans;
   text-align: center;
+}
+
+body {
+  font-family: "Josefin Sans", cursive;
 }
