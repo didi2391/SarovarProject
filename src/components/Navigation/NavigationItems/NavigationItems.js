@@ -16,7 +16,7 @@ class NavItems extends Component {
     if (this.props.isAuthenticated) {
       navItems = (
         <ul className={classes.NavigationItems}>
-          <NavigationItem link={ROUTES.USER}>Flatmates</NavigationItem>
+          <NavigationItem link={ROUTES.FLAT}>Flat</NavigationItem>
           <NavigationItem link={ROUTES.PARKING}>Parking</NavigationItem>
           <NavigationItem link={ROUTES.SIGN_OUT}>Logout</NavigationItem>
         </ul>
