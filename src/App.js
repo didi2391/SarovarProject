@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path={ROUTES.SIGNIN} component={SignIn} />
+        <Route path={ROUTES.SIGN_IN} component={SignIn} />
         <Route path={ROUTES.USER} component={User} />
         <Redirect to={ROUTES.USER} />
       </Switch>
