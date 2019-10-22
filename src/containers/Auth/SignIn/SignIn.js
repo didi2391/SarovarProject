@@ -50,7 +50,7 @@ class SignInGoogleBase extends Component {
 
   render() {
     return (
-      <GoogleButton type="Submit" onClick={this.onSubmit}>
+      <GoogleButton type="light" onClick={this.onSubmit}>
         Sign In with Google
       </GoogleButton>
     );
