@@ -15,7 +15,7 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path={ROUTES.SIGN_IN} component={SignIn} />
-        <Redirect to={ROUTES.USER} />
+        {/* <Redirect to={ROUTES.USER} /> */}
       </Switch>
     );
 
