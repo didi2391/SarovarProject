@@ -71,8 +71,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onAuthSuccess: (token, userId) =>
-      dispatch(actions.authSuccess(token, userId)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
+      dispatch(actions.authSuccess(token, userId))
+    // onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
   };
 };
 
