@@ -1,23 +1,44 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import Layout from "./hoc/Layout/Layout";
 import SignIn from "./containers/Auth/SignIn/SignIn";
 import Landing from "./containers/Landing/Landing";
+import SignOut from "./containers/Auth/Signout/Signout";
 
 import * as ROUTES from "./constants/routes";
+import { connect } from "react-redux";
 
 class App extends Component {
   render() {
-    return (
-      <Layout>
-        <Switch>
-          <Route path={ROUTES.LANDING} component={Landing} />
-          <Route path={ROUTES.SIGN_IN} exact component={SignIn} />
-        </Switch>
-      </Layout>
+    let routes = (
+      <Switch>
+        <Route path={ROUTES.SIGNIN} component={SignIn} />
+        <Redirect to="/" />
+      </Switch>
     );
+
+    if (this.props.isAuthenticated) {
+      routes = (
+        <Switch>
+          <Route path={ROUTES.SIGN_OUT} exact component={SignOut} />
+          <Route path={ROUTES.LANDING} exact component={Landing} />
+          <Redirect to="/" />
+        </Switch>
+      );
+    }
+
+    return <Layout>{routes}</Layout>;
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(App);

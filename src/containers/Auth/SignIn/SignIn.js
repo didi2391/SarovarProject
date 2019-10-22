@@ -1,88 +1,24 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
+import { connect } from "react-redux";
+import GoogleButton from "react-google-button";
 
 import { withFirebase } from "../../../helper/firebase/index";
 import * as ROUTES from "../../../constants/routes";
+import * as actions from "../../../store/actions/index";
 
-const SignInPage = () => (
-  <div>
-    <h1>SignIn</h1>
-    <SignInGoogle />
-  </div>
-);
-
-const INITIAL_STATE = {
-  email: "",
-  password: "",
-  error: null
-};
-
-class SignInFormBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { ...INITIAL_STATE };
-  }
-
-  onSubmit = event => {
-    const { email, password } = this.state;
-
-    this.props.firebase
-      .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
-
-    event.preventDefault();
-  };
-
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
+class SignInPage extends React.Component {
   render() {
-    const { email, password, error } = this.state;
-
-    const isInvalid = password === "" || email === "";
-
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
-
-        {error && <p>{error.message}</p>}
-      </form>
+      <div>
+        <SignInGoogle />
+      </div>
     );
   }
 }
 
 class SignInGoogleBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { error: null };
-  }
-
   onSubmit = event => {
     this.props.firebase
       .doSignInWithGoogle()
@@ -96,8 +32,10 @@ class SignInGoogleBase extends Component {
             roles: []
           })
           .then(() => {
-            this.setState({ error: null });
-            this.props.history.push(ROUTES.HOME);
+            this.props.onAuthSuccess(
+              socialAuthUser.credential.idToken,
+              socialAuthUser.user.uid
+            );
           })
           .catch(error => {
             this.setState({ error });
@@ -111,132 +49,40 @@ class SignInGoogleBase extends Component {
   };
 
   render() {
-    const { error } = this.state;
-
     return (
-      <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Google</button>
-
-        {error && <p>{error.message}</p>}
-      </form>
+      <GoogleButton type="Submit" onClick={this.onSubmit}>
+        Sign In with Google
+      </GoogleButton>
     );
   }
 }
 
-class SignInFacebookBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { error: null };
-  }
-
-  onSubmit = event => {
-    this.props.firebase
-      .doSignInWithFacebook()
-      .then(socialAuthUser => {
-        // Create a user in your Firebase Realtime Database too
-        this.props.firebase
-          .user(socialAuthUser.user.uid)
-          .set({
-            username: socialAuthUser.additionalUserInfo.profile.name,
-            email: socialAuthUser.additionalUserInfo.profile.email,
-            roles: []
-          })
-          .then(() => {
-            this.setState({ error: null });
-            this.props.history.push(ROUTES.HOME);
-          })
-          .catch(error => {
-            this.setState({ error });
-          });
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
-
-    event.preventDefault();
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token
   };
+};
 
-  render() {
-    const { error } = this.state;
-
-    return (
-      <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Facebook</button>
-
-        {error && <p>{error.message}</p>}
-      </form>
-    );
-  }
-}
-
-class SignInTwitterBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { error: null };
-  }
-
-  onSubmit = event => {
-    this.props.firebase
-      .doSignInWithTwitter()
-      .then(socialAuthUser => {
-        // Create a user in your Firebase Realtime Database too
-        this.props.firebase
-          .user(socialAuthUser.user.uid)
-          .set({
-            username: socialAuthUser.additionalUserInfo.profile.name,
-            email: socialAuthUser.additionalUserInfo.profile.email,
-            roles: []
-          })
-          .then(() => {
-            this.setState({ error: null });
-            this.props.history.push(ROUTES.HOME);
-          })
-          .catch(error => {
-            this.setState({ error });
-          });
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
-
-    event.preventDefault();
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuthSuccess: (token, userId) =>
+      dispatch(actions.authSuccess(token, userId)),
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
   };
+};
 
-  render() {
-    const { error } = this.state;
-
-    return (
-      <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Twitter</button>
-
-        {error && <p>{error.message}</p>}
-      </form>
-    );
-  }
-}
-
-const SignInForm = compose(
-  withRouter,
-  withFirebase
-)(SignInFormBase);
-
-const SignInGoogle = compose(
-  withRouter,
-  withFirebase
-)(SignInGoogleBase);
-
-const SignInFacebook = compose(
-  withRouter,
-  withFirebase
-)(SignInFacebookBase);
-
-const SignInTwitter = compose(
-  withRouter,
-  withFirebase
-)(SignInTwitterBase);
+const SignInGoogle = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  compose(
+    withRouter,
+    withFirebase
+  )(SignInGoogleBase)
+);
 
 export default SignInPage;
 
-export { SignInForm, SignInGoogle, SignInFacebook, SignInTwitter };
+export { SignInGoogle };
