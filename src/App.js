@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import Layout from "./hoc/Layout/Layout";
 import SignIn from "./containers/Auth/SignIn/SignIn";
-import Landing from "./containers/Landing/Landing";
+import User from "./containers/User/User";
 import SignOut from "./containers/Auth/Signout/Signout";
 
 import * as ROUTES from "./constants/routes";
@@ -14,16 +14,17 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path={ROUTES.SIGNIN} component={SignIn} />
-        <Redirect to="/" />
+        <Route path={ROUTES.USER} component={User} />
+        <Redirect to={ROUTES.USER} />
       </Switch>
     );
 
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
-          <Route path={ROUTES.SIGN_OUT} exact component={SignOut} />
-          <Route path={ROUTES.LANDING} exact component={Landing} />
-          <Redirect to="/" />
+          <Route path={ROUTES.SIGN_OUT} component={SignOut} />
+          <Route path={ROUTES.USER} component={User} />
+          <Redirect to={ROUTES.USER} />
         </Switch>
       );
     }

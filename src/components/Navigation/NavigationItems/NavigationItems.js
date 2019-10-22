@@ -7,6 +7,7 @@ import * as ROUTES from "../../../constants/routes";
 
 const navItems = props => (
   <ul className={classes.NavigationItems}>
+    <NavigationItem link={ROUTES.USER}>User</NavigationItem>
     {!props.isAuthenticated ? (
       <NavigationItem link={ROUTES.SIGN_IN}>SignIn</NavigationItem>
     ) : (
