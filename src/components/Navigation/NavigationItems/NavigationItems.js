@@ -10,6 +10,8 @@ class NavItems extends Component {
     let navItems = (
       <ul className={classes.NavigationItems}>
         <NavigationItem link={ROUTES.SIGN_IN}>SignIn</NavigationItem>
+        <NavigationItem link={ROUTES.FLAT}>Flat</NavigationItem>
+        <NavigationItem link={ROUTES.PARKING}>Parking</NavigationItem>
       </ul>
     );
 

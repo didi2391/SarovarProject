@@ -15,6 +15,8 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path={ROUTES.SIGN_IN} component={SignIn} />
+        <Route path={ROUTES.FLAT} component={Flat} />
+        <Route path={ROUTES.PARKING} component={Parking} />
         <Redirect to={ROUTES.SIGN_IN} />
       </Switch>
     );
