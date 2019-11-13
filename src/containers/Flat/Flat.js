@@ -83,21 +83,21 @@ class Flat extends Component {
   };
 
   inputChangedhandler = (event, inputIdentifier) => {
-    const updatedOrderForm = { ...this.state.flatForm };
-    const updatedFormElement = { ...updatedOrderForm[inputIdentifier] };
+    const updatedOrderFlatForm = { ...this.state.flatForm };
+    const updatedFormElement = { ...updatedOrderFlatForm[inputIdentifier] };
     updatedFormElement.value = event.target.value;
     updatedFormElement.valid = this.checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation
     );
     updatedFormElement.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedFormElement;
+    updatedOrderFlatForm[inputIdentifier] = updatedFormElement;
 
     let formIsValid = true;
-    for (const inputIdentifier in updatedOrderForm) {
-      formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+    for (const inputIdentifier in updatedOrderFlatForm) {
+      formIsValid = updatedOrderFlatForm[inputIdentifier].valid && formIsValid;
     }
-    this.setState({ flatForm: updatedOrderForm, formIsValid: formIsValid });
+    this.setState({ flatForm: updatedOrderFlatForm, formIsValid: formIsValid });
   };
 
   flatHandler = event => {
