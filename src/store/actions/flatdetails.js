@@ -25,12 +25,10 @@ export const flatDetailsSubmitError = error => {
 export const submitFlatDetailsData = flatDetailsData => {
   return dispatch => {
     dispatch(flatDetailsStartSubmit());
-    console.log("Submit dispatched");
     axios
       .post("/flats.json", flatDetailsData)
       .then(response => {
-        if (response.data.status === 200)
-          dispatch(flatDetailsSubmitSuccess(response.data));
+        dispatch(flatDetailsSubmitSuccess(flatDetailsData));
       })
       .catch(error => dispatch(flatDetailsSubmitError(error)));
   };

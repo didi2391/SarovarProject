@@ -36,7 +36,7 @@ class FlatForm extends Component {
         valid: false,
         touched: false
       },
-      phoneNumner: {
+      phoneNumber: {
         elementType: "input",
         elementConfig: {
           type: "number",
@@ -50,19 +50,33 @@ class FlatForm extends Component {
         valid: false,
         touched: false
       },
-      email: {
-        elementType: "input",
+      flatType: {
+        elementType: "select",
         elementConfig: {
-          type: "text",
-          placeholder: "Your Email"
+          options: [
+            { value: "rented", displayValue: "Rented" },
+            { value: "owner", displayValue: "Owner" }
+          ]
         },
-        value: "",
+        value: "fastest",
+        valid: false,
         validation: {
           required: true
-        },
-        valid: false,
-        touched: false
+        }
       }
+      // email: {
+      //   elementType: "input",
+      //   elementConfig: {
+      //     type: "text",
+      //     placeholder: "Your Email"
+      //   },
+      //   value: "",
+      //   validation: {
+      //     required: true
+      //   },
+      //   valid: false,
+      //   touched: false
+      // }
     },
     formIsValid: false
   };
@@ -153,7 +167,7 @@ class FlatForm extends Component {
 
     return (
       <div className={classes.FlatForm}>
-        <h4>Enter Flat Details</h4>
+        <h4>Enter Details below</h4>
         {form}
       </div>
     );
