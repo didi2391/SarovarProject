@@ -14,19 +14,11 @@ const flatDetailsReducer = (state = initialState, action) => {
         flatdata: null
       };
     case actionTypes.FLAT_DETAILS_SUBMIT_SUCCESS:
-      // return {
-      //   ...state,
-      //   error: null,
-      //   flatdata: action.data
-      // };
-
-      const tes = {
+      return {
         ...state,
         error: null,
         flatdata: action.data
-      };
-      console.log(tes);
-      return tes;
+      };     
     case actionTypes.FLAT_DETAILS_SUBMIT_ERROR:
       return {
         ...state,
