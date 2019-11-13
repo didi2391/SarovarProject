@@ -9,10 +9,10 @@ class NavItems extends Component {
   render() {
     let navItems = (
       <ul className={classes.NavigationItems}>
-        <NavigationItem link={ROUTES.SIGN_IN}>SignIn</NavigationItem>
         <NavigationItem link={ROUTES.FLAT}>Flat</NavigationItem>
         <NavigationItem link={ROUTES.PARKING}>Parking</NavigationItem>
         <NavigationItem link={ROUTES.MAINTENANCE}>Maintenance</NavigationItem>
+        <NavigationItem link={ROUTES.SIGN_IN}>SignIn</NavigationItem>
       </ul>
     );
 
