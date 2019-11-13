@@ -4,3 +4,4 @@ export const FLAT = "/flat";
 export const ADDFLAT = "/flat/addflat";
 export const VIEWFLAT = "/flat/viewflat";
 export const PARKING = "/parking";
+export const MAINTENANCE = '/maintenance';

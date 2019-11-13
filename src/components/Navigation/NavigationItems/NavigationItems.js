@@ -12,6 +12,7 @@ class NavItems extends Component {
         <NavigationItem link={ROUTES.SIGN_IN}>SignIn</NavigationItem>
         <NavigationItem link={ROUTES.FLAT}>Flat</NavigationItem>
         <NavigationItem link={ROUTES.PARKING}>Parking</NavigationItem>
+        <NavigationItem link={ROUTES.MAINTENANCE}>Maintenance</NavigationItem>
       </ul>
     );
 
@@ -20,6 +21,7 @@ class NavItems extends Component {
         <ul className={classes.NavigationItems}>
           <NavigationItem link={ROUTES.FLAT}>Flat</NavigationItem>
           <NavigationItem link={ROUTES.PARKING}>Parking</NavigationItem>
+          <NavigationItem link={ROUTES.MAINTENANCE}>Maintenance</NavigationItem>
           <NavigationItem link={ROUTES.SIGN_OUT}>Logout</NavigationItem>
         </ul>
       );
