@@ -151,7 +151,7 @@ class Flat extends Component {
     );
 
     return (
-      <div className={classes.ContactData}>
+      <div className={classes.FlatData}>
         <h4>Enter your Flat Details</h4>
         {form}
       </div>
