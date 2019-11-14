@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+
 import classes from "./FlatForm.module.css";
 import Input from "../../../components/UI/Inputs/Input";
 import Button from "../../../components/UI/Button/Button";
+import * as actions from "../../../store/actions/index";
 
 class FlatForm extends Component {
+  onInputChangedHandler = (event, formElementId) => {
+    event.persist();
+    this.props.onFormInputChanged(event, formElementId);
+  };
+
   render() {
     const formElementsArray = [];
 
@@ -14,7 +22,6 @@ class FlatForm extends Component {
         config: this.props.flatForm[key]
       });
     }
-
     let form = (
       <form onSubmit={this.props.flatSubmitBtnHandler}>
         {formElementsArray.map(formElement => {
@@ -25,7 +32,7 @@ class FlatForm extends Component {
               elementConfig={formElement.config.elementConfig}
               value={formElement.config.value}
               changed={event =>
-                this.props.inputChangedhandler(event, formElement.id)
+                this.onInputChangedHandler(event, formElement.id)
               }
               invalid={!formElement.config.valid}
               shouldValidate={formElement.config.validation}
@@ -48,4 +55,21 @@ class FlatForm extends Component {
   }
 }
 
-export default FlatForm;
+const mapStateToProps = state => {
+  return {
+    flatForm: state.flat.flatForm,
+    formIsValid: !state.flat.formIsValid
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFormInputChanged: (event, inputIdentifier) =>
+      dispatch(actions.formInputChangedHandler(event, inputIdentifier))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FlatForm);

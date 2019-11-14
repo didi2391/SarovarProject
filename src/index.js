@@ -8,17 +8,20 @@ import thunk from "redux-thunk";
 import "./styles.css";
 import App from "./App";
 import Firebase, { FirebaseContext } from "./helper/firebase";
-import authReducer from "./store/reducers/auth";
-import flatDetailsReducer from "./store/reducers/flatdetails";
+import auth from "./store/reducers/auth";
+import flat from "./store/reducers/flat";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducers = combineReducers({
-  auth: authReducer,
-  flatDetailsReducer: flatDetailsReducer
+  auth: auth,
+  flat: flat
 });
 
-const store = createStore(rootReducers, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(
+  rootReducers,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

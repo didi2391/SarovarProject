@@ -7,121 +7,6 @@ import * as actions from "../../store/actions/index";
 import Button from "../../components/UI/Button/Button";
 
 class Flat extends Component {
-  state = {
-    flatForm: {
-      flatNumber: {
-        elementType: "input",
-        elementConfig: {
-          type: "number",
-          placeholder: "Flat Number"
-        },
-        value: "",
-        validation: {
-          required: true,
-          maxlength: 3
-        },
-        valid: false,
-        touched: false
-      },
-      name: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Full Name"
-        },
-        value: "",
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      phoneNumber: {
-        elementType: "input",
-        elementConfig: {
-          type: "number",
-          placeholder: "Phone Number"
-        },
-        value: "",
-        validation: {
-          required: true,
-          maxlength: 10
-        },
-        valid: false,
-        touched: false
-      },
-      alternateNumber: {
-        elementType: "input",
-        elementConfig: {
-          type: "number",
-          placeholder: "Alternate Phone Number"
-        },
-        value: "",
-        validation: {
-          required: true,
-          maxlength: 10
-        },
-        valid: false,
-        touched: false
-      },
-      flatType: {
-        elementType: "select",
-        elementConfig: {
-          options: [
-            { value: "Rented", displayValue: "Rented" },
-            { value: "Owner", displayValue: "Owner" }
-          ]
-        },
-        value: "Owner",
-        valid: true,
-        validation: {
-          required: true
-        }
-      },
-      vehicleNumber1: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Vehicle Number 1"
-        },
-        value: "",
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false
-      },
-      vehicleNumber2: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Vehicle Number 2"
-        },
-        value: "",
-        validation: {
-          required: false
-        },
-        valid: true,
-        touched: false
-      },
-      vehicleNumber3: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Vehicle Number 3"
-        },
-        value: "",
-        validation: {
-          required: false
-        },
-        valid: true,
-        touched: false
-      }
-    },
-    formIsValid: false,
-    toggleFlatFormDisplay: false
-  };
-
   checkValidity = (value, rules) => {
     let isValid = false;
 
@@ -138,54 +23,30 @@ class Flat extends Component {
     return isValid;
   };
 
-  inputChangedhandler = (event, inputIdentifier) => {
-    const updatedOrderFlatForm = { ...this.state.flatForm };
-    const updatedFormElement = { ...updatedOrderFlatForm[inputIdentifier] };
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation
-    );
-    updatedFormElement.touched = true;
-    updatedOrderFlatForm[inputIdentifier] = updatedFormElement;
-
-    let formIsValid = true;
-    for (const inputIdentifier in updatedOrderFlatForm) {
-      formIsValid = updatedOrderFlatForm[inputIdentifier].valid && formIsValid;
-    }
-
-    this.setState({
-      flatForm: updatedOrderFlatForm,
-      formIsValid: formIsValid
-    });
-  };
-
   flatHandler = event => {
     event.preventDefault();
 
     const formData = {};
 
-    for (const formatElementIdentifier in this.state.flatForm) {
-      formData[formatElementIdentifier] = this.state.flatForm[
+    for (const formatElementIdentifier in this.props.flatForm) {
+      formData[formatElementIdentifier] = this.props.flatForm[
         formatElementIdentifier
       ].value;
     }
-
     this.props.onFlatDetaisSubmit(formData);
   };
 
   toggleFlatFormDisplay = () => {
-    this.setState({ toggleFlatFormDisplay: !this.state.toggleFlatFormDisplay });
+    this.props.onAddFormButtonClick();
   };
 
   render() {
     let addFlatForm = null;
-    if (this.state.toggleFlatFormDisplay) {
+    if (this.props.toggleFlatFormDisplay) {
       addFlatForm = (
         <FlatForm
-          flatForm={this.state.flatForm}
-          formIsValid={!this.state.formIsValid}
-          inputChangedhandler={this.inputChangedhandler}
+          // flatForm={this.props.flatForm}
+          // formIsValid={!this.props.formIsValid}
           flatSubmitBtnHandler={this.flatHandler}
         />
       );
@@ -197,22 +58,33 @@ class Flat extends Component {
         </Button>
         {addFlatForm}
         <FlatDetails
-          columnDefs={this.state.columnDefs}
-          rowDefs={this.state.flatDetailsData}
+          columnDefs={this.props.columnData}
+          rowDefs={this.props.rowData}
         />
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    toggleFlatFormDisplay: state.flat.toggleFlatFormDisplay,
+    columnData: state.flat.columnData,
+    rowData: state.flat.rowData,
+    flatForm: state.flat.flatForm,
+    formIsValid: state.flat.formIsValid
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onFlatDetaisSubmit: flatDetailsData =>
-      dispatch(actions.submitFlatDetailsData(flatDetailsData))
+      dispatch(actions.submitFlatDetailsData(flatDetailsData)),
+    onAddFormButtonClick: () => dispatch(actions.toggleFormBtnClickAction())
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Flat);

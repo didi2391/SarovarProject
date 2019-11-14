@@ -1,36 +1,14 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { AgGridReact } from "ag-grid-react";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
-import axios from "../../../axios-config";
+import * as actions from "../../../store/actions/index";
 
-class FlatDetails extends PureComponent {
-  state = {
-    columnData: [
-      { headerName: "Flat Number", field: "flatNumber" },
-      { headerName: "Flat Type", field: "flatType" },
-      { headerName: "Full Name", field: "name" },
-      { headerName: "Phone Number", field: "phoneNumber" },
-      { headerName: "Alternate Phone Number", field: "alternateNumber" },
-      { headerName: "Vehicle Number - 1", field: "vehicleNumber1" },
-      { headerName: "Vehicle Number - 2", field: "vehicleNumber2" },
-      { headerName: "Vehicle Number - 3", field: "vehicleNumber3" }
-    ],
-    rowData: []
-  };
-
+class FlatDetails extends Component {
   componentDidMount() {
-    axios
-      .get("flats.json")
-      .then(response => {
-        if (response !== null && response.data !== null) {
-          this.setState({ rowData: Object.values(response.data) });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.props.onFetchFlatDetails();
   }
 
   render() {
@@ -47,12 +25,28 @@ class FlatDetails extends PureComponent {
         }}
       >
         <AgGridReact
-          columnDefs={this.state.columnData}
-          rowData={this.state.rowData}
+          columnDefs={this.props.columnData}
+          rowData={this.props.rowData}
         />
       </div>
     );
   }
 }
 
-export default FlatDetails;
+const mapStateToProps = state => {
+  return {
+    columnData: state.flat.columnData,
+    rowData: state.flat.rowData
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchFlatDetails: () => dispatch(actions.fetchFlatDetailsAPICall())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FlatDetails);
