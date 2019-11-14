@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import FlatForm from "./FlatForm/FlatForm";
 import FlatDetails from "./FlatDetails/FlatDetails";
 import * as actions from "../../store/actions/index";
+import Button from "../../components/UI/Button/Button";
 
 class Flat extends Component {
   state = {
@@ -49,6 +50,20 @@ class Flat extends Component {
         valid: false,
         touched: false
       },
+      alternateNumber: {
+        elementType: "input",
+        elementConfig: {
+          type: "number",
+          placeholder: "Alternate Phone Number"
+        },
+        value: "",
+        validation: {
+          required: true,
+          maxlength: 10
+        },
+        valid: false,
+        touched: false
+      },
       flatType: {
         elementType: "select",
         elementConfig: {
@@ -62,9 +77,49 @@ class Flat extends Component {
         validation: {
           required: true
         }
+      },
+      vehicleNumber1: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Vehicle Number 1"
+        },
+        value: "",
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
+      },
+      vehicleNumber2: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Vehicle Number 2"
+        },
+        value: "",
+        validation: {
+          required: false
+        },
+        valid: true,
+        touched: false
+      },
+      vehicleNumber3: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Vehicle Number 3"
+        },
+        value: "",
+        validation: {
+          required: false
+        },
+        valid: true,
+        touched: false
       }
     },
-    formIsValid: false
+    formIsValid: false,
+    toggleFlatFormDisplay: false
   };
 
   checkValidity = (value, rules) => {
@@ -119,16 +174,32 @@ class Flat extends Component {
     this.props.onFlatDetaisSubmit(formData);
   };
 
+  toggleFlatFormDisplay = () => {
+    this.setState({ toggleFlatFormDisplay: !this.state.toggleFlatFormDisplay });
+  };
+
   render() {
-    return (
-      <div>
+    let addFlatForm = null;
+    if (this.state.toggleFlatFormDisplay) {
+      addFlatForm = (
         <FlatForm
           flatForm={this.state.flatForm}
           formIsValid={!this.state.formIsValid}
           inputChangedhandler={this.inputChangedhandler}
           flatSubmitBtnHandler={this.flatHandler}
         />
-        <FlatDetails columnDefs={this.state.columnDefs} />
+      );
+    }
+    return (
+      <div>
+        <Button btnType="Success" clicked={this.toggleFlatFormDisplay}>
+          Add Flat Details
+        </Button>
+        {addFlatForm}
+        <FlatDetails
+          columnDefs={this.state.columnDefs}
+          rowDefs={this.state.flatDetailsData}
+        />
       </div>
     );
   }

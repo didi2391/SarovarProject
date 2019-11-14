@@ -5,7 +5,6 @@ import Layout from "./hoc/Layout/Layout";
 import SignIn from "./containers/Auth/SignIn/SignIn";
 import Flat from "./containers/Flat/Flat";
 import SignOut from "./containers/Auth/Signout/Signout";
-import Parking from "./containers/Parking/Parking";
 import Maintenance from "./containers/Maintenance/Maintenance";
 
 import * as ROUTES from "./constants/routes";
@@ -17,7 +16,6 @@ class App extends Component {
       <Switch>
         <Route path={ROUTES.SIGN_IN} component={SignIn} />
         <Route path={ROUTES.FLAT} component={Flat} />
-        <Route path={ROUTES.PARKING} component={Parking} />
         <Route path={ROUTES.MAINTENANCE} component={Maintenance} />
         <Redirect to={ROUTES.SIGN_IN} />
       </Switch>
@@ -28,7 +26,6 @@ class App extends Component {
         <Switch>
           <Route path={ROUTES.SIGN_OUT} component={SignOut} />
           <Route path={ROUTES.FLAT} component={Flat} />
-          <Route path={ROUTES.PARKING} component={Parking} />
           <Route path={ROUTES.MAINTENANCE} component={Maintenance} />
           <Redirect to={ROUTES.FLAT} />
         </Switch>
