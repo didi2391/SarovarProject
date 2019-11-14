@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import FlatForm from "./FlatForm/FlatForm";
 import FlatDetails from "./FlatDetails/FlatDetails";
 import * as actions from "../../store/actions/index";
-import axios from "../../axios-config";
 
 class Flat extends Component {
   state = {
@@ -54,11 +53,11 @@ class Flat extends Component {
         elementType: "select",
         elementConfig: {
           options: [
-            { value: "rented", displayValue: "Rented" },
-            { value: "owner", displayValue: "Owner" }
+            { value: "Rented", displayValue: "Rented" },
+            { value: "Owner", displayValue: "Owner" }
           ]
         },
-        value: "owner",
+        value: "Owner",
         valid: true,
         validation: {
           required: true
@@ -82,17 +81,6 @@ class Flat extends Component {
     }
 
     return isValid;
-  };
-
-  fetchFlatDetailsData = () => {
-    axios
-      .get("https://srinidhisarovar.firebaseio.com//flats.json")
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   inputChangedhandler = (event, inputIdentifier) => {
@@ -128,11 +116,7 @@ class Flat extends Component {
       ].value;
     }
 
-    const flatDetailsData = {
-      flatData: formData
-    };
-
-    this.props.onFlatDetaisSubmit(flatDetailsData);
+    this.props.onFlatDetaisSubmit(formData);
   };
 
   render() {
@@ -144,7 +128,7 @@ class Flat extends Component {
           inputChangedhandler={this.inputChangedhandler}
           flatSubmitBtnHandler={this.flatHandler}
         />
-        <FlatDetails fetchFlatDetailsData={this.fetchFlatDetailsData} />
+        <FlatDetails columnDefs={this.state.columnDefs} />
       </div>
     );
   }
