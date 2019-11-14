@@ -49,7 +49,6 @@ export const submitFlatDetailsData = flatDetailsData => {
     axios
       .post("/flats.json", flatDetailsData)
       .then(response => {
-        console.log(flatDetailsData);
         dispatch(flatDetailsSubmitSuccess(flatDetailsData));
       })
       .catch(error => dispatch(flatDetailsSubmitError(error)));

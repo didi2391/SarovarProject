@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
+import { object } from "prop-types";
 
 const initialState = {
   flatForm: {
@@ -166,19 +167,17 @@ const flatDetailsReducer = (state = initialState, action) => {
     case actionTypes.START_FLAT_DETAILS_SUBMIT:
       return {
         ...state,
-        error: null,
-        flatdata: null
+        error: null
       };
     case actionTypes.FLAT_DETAILS_SUBMIT_SUCCESS:
       return {
         ...state,
         error: null,
-        flatdata: [...this.state.flatdata, Object.assign({}, action.data)]
+        rowData: [...state.rowData, action.data]
       };
     case actionTypes.FLAT_DETAILS_SUBMIT_ERROR:
       return {
         ...state,
-        flatdata: null,
         error: action.error
       };
     default:
