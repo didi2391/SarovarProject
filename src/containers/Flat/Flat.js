@@ -43,13 +43,7 @@ class Flat extends Component {
   render() {
     let addFlatForm = null;
     if (this.props.toggleFlatFormDisplay) {
-      addFlatForm = (
-        <FlatForm
-          // flatForm={this.props.flatForm}
-          // formIsValid={!this.props.formIsValid}
-          flatSubmitBtnHandler={this.flatHandler}
-        />
-      );
+      addFlatForm = <FlatForm flatSubmitBtnHandler={this.flatHandler} />;
     }
     return (
       <div>
